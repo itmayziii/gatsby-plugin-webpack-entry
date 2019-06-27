@@ -1,0 +1,13 @@
+node_modules/
+
+# IDE #
+.idea/
+
+# Built Files #
+gatsby-ssr.js
+gatsby-node.js
+interfaces.js
+*.spec.js
+
+# Test Coverage #
+.nyc_output/

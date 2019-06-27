@@ -1,0 +1,50 @@
+{
+  "name": "gatsby-plugin-webpack-entry",
+  "version": "0.0.1",
+  "description": "Gatsby plugin that lets you add additional entry points to the webpack configuration which will be included in your HTML pages.",
+  "main": "index.js",
+  "scripts": {
+    "build": "npx tsc --project tsconfig.json",
+    "watch": "npx tsc --project tsconfig.json --watch",
+    "package": "npm run build && npx standard-version",
+    "test": "npm run build && npx nyc jasmine --config=jasmine.json",
+    "lint": "npx tslint --project tsconfig.json --config tslint.json",
+    "lint:fix": "npx tslint --fix --project tsconfig.json --config tslint.json",
+    "commit": "npx git-cz",
+    "cloud-build": "gcloud config set project gatsby-plugin-no-javascript && gcloud builds submit"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/itmayziii/gatsby-plugin-webpack-entry.git"
+  },
+  "keywords": [
+    "gatsby",
+    "gatsby-plugin",
+    "webpack",
+    "entry",
+    "point"
+  ],
+  "author": "Tommy May III <tommymay37@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/jasmine": "^3.3.13",
+    "@types/node": "^12.0.10",
+    "@types/react": "^16.8.22",
+    "commitizen": "^3.1.1",
+    "cz-conventional-changelog": "^2.1.0",
+    "jasmine": "^3.4.0",
+    "nyc": "^14.1.1",
+    "standard-version": "^6.0.1",
+    "tslint": "^5.18.0",
+    "tslint-config-standard": "^8.0.1",
+    "typescript": "^3.5.2"
+  },
+  "peerDependencies": {
+    "gatsby": "^2.0.0"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
+}
