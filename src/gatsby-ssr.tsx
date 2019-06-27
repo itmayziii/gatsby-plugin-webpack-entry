@@ -9,7 +9,7 @@ export function onRenderBody ({ setHeadComponents, setPostBodyComponents }: OnRe
     try {
       webpackStatFile = JSON.parse(fs.readFileSync(path.resolve('public', 'webpack.stats.json'), 'utf8'))
     } catch (error) {
-      throw new Error('gatsby-plugin-webpack-entry: Gatsby removed an internal detail that this plugin relied upon, please submit this issue to https://www.github.com/itmayziii/gatsby-plugin-webpack-entry.')
+      throw new Error('gatsby-plugin-webpack-entry: Gatsby removed an internal detail that this plugin relied upon, please submit this issue to https://www.github.com/itmayziii/gatsby-plugin-webpack-entry/issues.')
     }
   }
 
