@@ -1,9 +1,6 @@
 ## Description
 
 Adds entry points in the webpack configuration and includes those entry points in your HTML.
- 
-A code coverage tool is not set up for this repository yet to add a nice badge for the percent covered,
-but rest knowing that this plugin is currently 100% unit tested. Go ahead and run `npm run test` to see the `instanbul` code coverage output.
 
 ## How to install
 
