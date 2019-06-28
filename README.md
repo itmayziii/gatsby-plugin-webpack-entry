@@ -13,7 +13,11 @@ The maintainers will do their best to keep this plugin working with Gatsby V2+ :
 
 `entry`: `{ [key: string]: string } (required)`
 * specify the entry points just like you would in a [webpack configuration](https://webpack.js.org/concepts/entry-points/), these are merged in with Gatsbys.
-* :warning: the value should be an absolute path like `path.resolve(__dirname, 'src', 'super-app.js')` 
+* :warning: the value should be an absolute path like `path.resolve(__dirname, 'src', 'super-app.js')`
+
+`statsFilePath`: `string (optional)`
+* Specify a path to a custom webpack.stats.json file, this would be rare to use as if gatsby was compiling somewhere else besides the public directory. 
+* :warning: the value should be an absolute path like `path.resolve(__dirname, 'src', 'super-app.js')`
 
 ## When do I use this plugin?
 
