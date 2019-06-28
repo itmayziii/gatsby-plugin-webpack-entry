@@ -6,6 +6,7 @@ src/
 tsconfig.json
 tslint.json
 jasmine.json
+test-data/
 cloudbuild.yaml
 .idea
 .github

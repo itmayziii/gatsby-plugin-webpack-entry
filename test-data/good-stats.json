@@ -1,0 +1,21 @@
+{
+  "errors": [],
+  "warnings": [],
+  "namedChunkGroups": {
+    "super-app": {
+      "chunks": [
+        27,
+        0,
+        29
+      ],
+      "assets": [
+        "webpack-runtime-39b5815d2a4f0f10d2b1.js",
+        "webpack-runtime-39b5815d2a4f0f10d2b1.js.map",
+        "super-app-001ed95ccfcae4a402a0.js",
+        "super-app-001ed95ccfcae4a402a0.js.map"
+      ],
+      "children": {},
+      "childAssets": {}
+    }
+  }
+}

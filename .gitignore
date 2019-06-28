@@ -8,6 +8,7 @@ gatsby-ssr.js
 gatsby-node.js
 interfaces.js
 *.spec.js
+*.js.map
 
 # Test Coverage #
 .nyc_output/

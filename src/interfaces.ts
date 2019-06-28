@@ -13,8 +13,8 @@ export interface WebpackStatFile {
   warnings: any[],
   namedChunkGroups: {
     [key: string]: {
-      chunks: number[],
-      assets: string[],
+      chunks: number[]
+      assets: string[]
       children: { [key: string]: any }
       childAssets: { [key: string]: any }
     }
@@ -28,4 +28,5 @@ export interface OnRenderBodyArgs {
 
 export interface PluginOptions {
   entry: { [key: string]: string }
+  statsFilePath?: string
 }

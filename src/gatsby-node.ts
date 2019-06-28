@@ -1,12 +1,8 @@
 import { OnCreateWebpackConfigArgs, PluginOptions } from './interfaces'
+import { validatePluginOptions } from './helpers'
 
-export function onCreateWebpackConfig ({ stage, getConfig, actions }: OnCreateWebpackConfigArgs, pluginOptions: PluginOptions) {
-  if (!pluginOptions.entry) {
-    throw new Error('gatsby-plugin-webpack-entry: Missing required option "entry". https://github.com/itmayziii/gatsby-plugin-webpack-entry#available-options')
-  }
-  if (typeof pluginOptions.entry !== 'object' || Object.keys(pluginOptions.entry).length === 0) {
-    throw new Error('gatsby-plugin-webpack-entry: Option "entry" must be a non empty object. https://github.com/itmayziii/gatsby-plugin-webpack-entry#available-options')
-  }
+export function onCreateWebpackConfig ({ stage, getConfig, actions }: OnCreateWebpackConfigArgs, pluginOptions: Partial<PluginOptions>) {
+  validatePluginOptions(pluginOptions)
 
   if (stage === 'build-javascript') {
     const config = getConfig()

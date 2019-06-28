@@ -1,0 +1,6 @@
+// Broken JSON for testing
+edf
+{
+  fa: dsa,
+  ~~~~~~
+}
