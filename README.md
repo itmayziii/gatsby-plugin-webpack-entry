@@ -6,7 +6,8 @@ versions of Gatsby. The maintainers will do their best to keep this plugin worki
 
 ## Usage
 ### Installing
-`npm install gatsby-plugin-webpack-entry` or `yarn add gatsby-plugin-webpack-entry`
+* NPM - `npm install gatsby-plugin-webpack-entry`
+* Yarn - `yarn add gatsby-plugin-webpack-entry`
 
 ### Available Options
 `entry`: `{ [key: string]: string } (required)`
