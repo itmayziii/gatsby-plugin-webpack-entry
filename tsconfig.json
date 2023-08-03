@@ -5,6 +5,7 @@
     "sourceMap": true,
     "target": "es5",
     "moduleResolution": "node",
+    "esModuleInterop": true,
     "rootDir": "src",
     "lib": [
       "es6",
@@ -16,6 +17,7 @@
     "src/**/*"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "src/**/*.spec.ts"
   ]
 }

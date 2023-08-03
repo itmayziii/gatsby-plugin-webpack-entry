@@ -2,12 +2,11 @@ import { onCreateWebpackConfig } from './gatsby-node'
 import Spy = jasmine.Spy
 
 describe('gatsby-node.ts', () => {
-
   describe('onCreateWebpackConfig', () => {
-    let webpackConfig: any
+    let webpackConfig: unknown
     let replaceWebpackConfigSpy: Spy
 
-    function getConfig () {
+    function getConfig (): unknown {
       return webpackConfig
     }
 
@@ -27,20 +26,19 @@ describe('gatsby-node.ts', () => {
     })
 
     it('should throw an error if the plugin options do not define an "entry" option', () => {
-      // @ts-ignore
-      expect(() => onCreateWebpackConfig({ stage: 'build-javascript', getConfig, actions: { replaceWebpackConfig: replaceWebpackConfigSpy } }, {}))
-          .toThrow(new Error('gatsby-plugin-webpack-entry: Missing required option "entry". https://github.com/itmayziii/gatsby-plugin-webpack-entry#available-options'))
+      expect(() => { onCreateWebpackConfig({ stage: 'build-javascript', getConfig, actions: { replaceWebpackConfig: replaceWebpackConfigSpy } }, {}) })
+        .toThrow(new Error('gatsby-plugin-webpack-entry: Missing required option "entry". https://github.com/itmayziii/gatsby-plugin-webpack-entry#available-options'))
     })
 
     it('should throw an error if the plugin option "entry" is not an object', () => {
-      // @ts-ignore
-      expect(() => onCreateWebpackConfig({ stage: 'build-javascript', getConfig, actions: { replaceWebpackConfig: replaceWebpackConfigSpy } }, { entry: [] }))
-          .toThrow(new Error('gatsby-plugin-webpack-entry: Option "entry" must be a non empty object. https://github.com/itmayziii/gatsby-plugin-webpack-entry#available-options'))
+      // @ts-expect-error the parameters are intentionally invalid to test the appropriate error occurs
+      expect(() => { onCreateWebpackConfig({ stage: 'build-javascript', getConfig, actions: { replaceWebpackConfig: replaceWebpackConfigSpy } }, { entry: [] }) })
+        .toThrow(new Error('gatsby-plugin-webpack-entry: Option "entry" must be a non empty object. https://github.com/itmayziii/gatsby-plugin-webpack-entry#available-options'))
     })
 
     it('should throw an error if the plugin option "entry" is an object with no keys', () => {
-      expect(() => onCreateWebpackConfig({ stage: 'build-javascript', getConfig, actions: { replaceWebpackConfig: replaceWebpackConfigSpy } }, { entry: {} }))
-          .toThrow(new Error('gatsby-plugin-webpack-entry: Option "entry" must be a non empty object. https://github.com/itmayziii/gatsby-plugin-webpack-entry#available-options'))
+      expect(() => { onCreateWebpackConfig({ stage: 'build-javascript', getConfig, actions: { replaceWebpackConfig: replaceWebpackConfigSpy } }, { entry: {} }) })
+        .toThrow(new Error('gatsby-plugin-webpack-entry: Option "entry" must be a non empty object. https://github.com/itmayziii/gatsby-plugin-webpack-entry#available-options'))
     })
 
     it('should not touch the webpack config for any stage except "build-javascript"', () => {
@@ -54,5 +52,4 @@ describe('gatsby-node.ts', () => {
       expect(replaceWebpackConfigSpy.calls.argsFor(0)[0].entry).toEqual({ app: 'app.js', 'super-app': 'super-app.js' })
     })
   })
-
 })

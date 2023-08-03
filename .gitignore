@@ -12,3 +12,6 @@ interfaces.js
 
 # Test Coverage #
 .nyc_output/
+
+# Test Gatsby sites
+gatsby/

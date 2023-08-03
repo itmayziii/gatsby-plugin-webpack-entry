@@ -3,7 +3,6 @@ import Spy = jasmine.Spy
 import { onRenderBody } from './gatsby-ssr'
 
 describe('gatsby-ssr.tsx', () => {
-
   describe('onRenderBody', () => {
     let setHeadComponentsSpy: Spy
     let setPostBodyComponentsSpy: Spy
@@ -16,7 +15,7 @@ describe('gatsby-ssr.tsx', () => {
       expect(() => {
         onRenderBody({ setHeadComponents: setHeadComponentsSpy, setPostBodyComponents: setPostBodyComponentsSpy }, {
           entry: { 'super-app': 'super-app.js' },
-          statsFilePath: path.resolve('does-not-exist.json')
+          webpackStatsFilePath: path.resolve('does-not-exist.json')
         })
       }
       ).toThrowError()
@@ -26,7 +25,7 @@ describe('gatsby-ssr.tsx', () => {
       expect(() => {
         onRenderBody({ setHeadComponents: setHeadComponentsSpy, setPostBodyComponents: setPostBodyComponentsSpy }, {
           entry: { 'super-app': 'super-app.js' },
-          statsFilePath: path.resolve('test-data', 'bad-stats.json')
+          webpackStatsFilePath: path.resolve('test-data', 'bad-stats.json')
         })
       }
       ).toThrowError()
@@ -35,7 +34,7 @@ describe('gatsby-ssr.tsx', () => {
     it('should set the head and post body scripts for each entry', () => {
       onRenderBody({ setHeadComponents: setHeadComponentsSpy, setPostBodyComponents: setPostBodyComponentsSpy }, {
         entry: { 'super-app': 'super-app.js' },
-        statsFilePath: path.resolve('test-data', 'good-stats.json')
+        webpackStatsFilePath: path.resolve('test-data', 'good-stats.json')
       })
 
       expect(setHeadComponentsSpy).toHaveBeenCalledTimes(1)
@@ -44,5 +43,4 @@ describe('gatsby-ssr.tsx', () => {
       expect(setHeadComponentsSpy.calls.argsFor(0).length).toEqual(1)
     })
   })
-
 })

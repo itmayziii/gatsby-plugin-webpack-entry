@@ -1,9 +1,8 @@
 {
   "spec_dir": "./",
   "spec_files": [
-    "**/*[sS]pec.js",
-    "!node_modules/**/*.js"
+    "**/*[sS]pec.ts"
   ],
   "stopSpecOnExpectationFailure": false,
-  "random": false
+  "random": true
 }
