@@ -1,23 +1,12 @@
 import { type ReactNode } from 'react'
+import { type Configuration, type Entry } from 'webpack'
 
 export interface OnCreateWebpackConfigArgs {
   stage: string
-  getConfig: () => any
+  getConfig: () => Configuration
   actions: {
-    replaceWebpackConfig: (config: any) => void
+    replaceWebpackConfig: (config: unknown) => void
   }
-}
-
-export interface WebpackStatFile {
-  errors: any[]
-  warnings: any[]
-  namedChunkGroups: Record<string, {
-    chunks: number[]
-    assets: string[]
-    children: Record<string, any>
-    childAssets: Record<string, any>
-  }>
-  assetsByChunkName: Record<string, string[]>
 }
 
 export interface OnRenderBodyArgs {
@@ -26,11 +15,15 @@ export interface OnRenderBodyArgs {
 }
 
 export interface PluginOptions {
-  entry: Record<string, string | string[]>
+  entry: Configuration['entry']
   webpackStatsFilePath?: string
 }
 
-export interface WebpackAssets {
+export interface ValidatedPluginOptions extends PluginOptions {
+  entry: Entry
+}
+
+export interface GatsbyAssets {
   links: ReactNode[]
   scripts: ReactNode[]
 }

@@ -2,7 +2,7 @@ import * as path from 'path'
 import Spy = jasmine.Spy
 import { onRenderBody } from './gatsby-ssr'
 
-describe('gatsby-ssr.tsx', () => {
+describe('gatsby-ssr', () => {
   describe('onRenderBody', () => {
     let setHeadComponentsSpy: Spy
     let setPostBodyComponentsSpy: Spy
@@ -25,7 +25,7 @@ describe('gatsby-ssr.tsx', () => {
       expect(() => {
         onRenderBody({ setHeadComponents: setHeadComponentsSpy, setPostBodyComponents: setPostBodyComponentsSpy }, {
           entry: { 'super-app': 'super-app.js' },
-          webpackStatsFilePath: path.resolve('test-data', 'bad-stats.json')
+          webpackStatsFilePath: path.resolve(__dirname, '..', 'test-data', 'bad-stats.json')
         })
       }
       ).toThrowError()

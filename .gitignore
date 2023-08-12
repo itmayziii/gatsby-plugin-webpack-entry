@@ -7,11 +7,9 @@ node_modules/
 gatsby-ssr.js
 gatsby-node.js
 interfaces.js
+helpers.js
 *.spec.js
 *.js.map
 
 # Test Coverage #
 .nyc_output/
-
-# Test Gatsby sites
-gatsby/
