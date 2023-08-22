@@ -1,6 +1,6 @@
 import { type OnCreateWebpackConfigArgs, type PluginOptions, type ValidatedPluginOptions } from './interfaces'
 import { isWebpackEntryObject, overlappingKeys, validatePluginOptions } from './helpers'
-import { type Entry } from 'webpack'
+import { type EntryObject } from 'webpack'
 
 export function onCreateWebpackConfig ({
   stage,
@@ -26,7 +26,7 @@ export function onCreateWebpackConfig ({
     if (overlappingPluginKeys.length > 0) {
       throw new Error([
         'gatsby-plugin-webpack-entry: Provided plugin "entry" option has keys that would overlap with Gatsby.',
-        'You should ovoid overlapping keys as it will override the JavaScript Gatsby is attempting to compile with',
+        'You should avoid overlapping keys as it will override the JavaScript Gatsby is attempting to compile with',
         `Webpack. Overlapping keys: ${overlappingPluginKeys.join(', ')}`
       ].join(' '))
     }
@@ -38,7 +38,7 @@ export function onCreateWebpackConfig ({
   }
 }
 
-function addHotModuleReplacement (entries: ValidatedPluginOptions['entry']): Entry {
+function addHotModuleReplacement (entries: ValidatedPluginOptions['entry']): EntryObject {
   /*
    This is the same script that the Gatsby React code receives during development to enable HMR. This will ensure that
    HMR is enabled for the custom entrypoint added by library consumers.
@@ -47,7 +47,7 @@ function addHotModuleReplacement (entries: ValidatedPluginOptions['entry']): Ent
   // FIXME can we make this an absolute path?
   const hotModuleReplacement = 'webpack-hot-middleware/client.js?path=/__webpack_hmr&reload=true&overlay=false'
 
-  return Object.keys(entries).reduce<Entry>((newEntries, current) => {
+  return Object.keys(entries).reduce<EntryObject>((newEntries, current) => {
     const entryValue = entries[current]
 
     /*

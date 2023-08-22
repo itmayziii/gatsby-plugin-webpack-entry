@@ -3,7 +3,7 @@ import * as path from 'path'
 import { type OnRenderBodyArgs, type PluginOptions, type GatsbyAssets, type ValidatedPluginOptions } from './interfaces'
 import { validatePluginOptions } from './helpers'
 import React from 'react'
-import { type Stats } from 'webpack'
+import { type StatsCompilation } from 'webpack'
 
 export function onRenderBody ({
   setHeadComponents,
@@ -29,7 +29,7 @@ function getDevelopmentAssets (pluginOptions: ValidatedPluginOptions): GatsbyAss
 
 function getProductionAssets (pluginOptions: ValidatedPluginOptions): GatsbyAssets {
   const webpackStatsFilePath = pluginOptions.webpackStatsFilePath ?? path.resolve('public', 'webpack.stats.json')
-  let webpackStatFile: Stats.ToJsonOutput
+  let webpackStatFile: StatsCompilation
   try {
     webpackStatFile = JSON.parse(fs.readFileSync(webpackStatsFilePath, 'utf8'))
   } catch (error) {
@@ -50,9 +50,17 @@ function getProductionAssets (pluginOptions: ValidatedPluginOptions): GatsbyAsse
       ].join(' '))
     }
     const chunkAssets = webpackStatFile.assetsByChunkName[entryName]
-    if (chunkAssets === undefined) return assets;
+    if (chunkAssets === undefined) {
+      throw new Error([
+        `gatsby-plugin-webpack-entry: Gatsby's Webpack stats file is missing the "assetsByChunkName["${entryName}"]"`,
+        'property. It is possible you are using a version of Gatsby that does not work with this plugin or',
+        'another plugin is modifying the Webpack stats file in a way that is not compatible with this plugin.',
+        'Please open an issue at https://github.com/itmayziii/gatsby-plugin-webpack-entry/issues/new/choose.',
+        'https://webpack.js.org/api/stats/.'
+      ].join(' '))
+    }
 
-    (Array.isArray(chunkAssets) ? chunkAssets : [chunkAssets]).forEach(chunkAsset => {
+    chunkAssets.forEach(chunkAsset => {
       // We should not include the Webpack runtime as this is already included by Gatsby.
       if (chunkAsset.includes('webpack-runtime')) return
 

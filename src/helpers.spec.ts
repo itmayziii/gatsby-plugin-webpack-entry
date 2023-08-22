@@ -1,8 +1,9 @@
+import { describe, test, expect } from '@jest/globals'
 import { isWebpackEntryObject, overlappingKeys, validatePluginOptions } from './helpers'
 
 describe('helpers', () => {
   describe('validatePluginOptions', () => {
-    it('should throw an error if the entry option is not a webpack entry object', () => {
+    test('should throw an error if the entry option is not a webpack entry object', () => {
       const expectedError = new Error([
         'gatsby-plugin-webpack-entry: Option "entry" must use Webpack\'s object syntax.',
         'https://github.com/itmayziii/gatsby-plugin-webpack-entry#available-options.',
@@ -12,7 +13,7 @@ describe('helpers', () => {
         .toThrow(expectedError)
     })
 
-    it('should throw an error if supplied "entry" argument is an empty object', () => {
+    test('should throw an error if supplied "entry" argument is an empty object', () => {
       const expectedError = new Error([
         'gatsby-plugin-webpack-entry: Option "entry" must be a non empty object otherwise this plugin provides no',
         'value and should be removed. https://github.com/itmayziii/gatsby-plugin-webpack-entry#available-options.',
@@ -21,36 +22,42 @@ describe('helpers', () => {
       expect(() => { validatePluginOptions({ entry: {} }) })
         .toThrow(expectedError)
     })
+
+    test('should return the plugin options passed in', () => {
+      const actual = validatePluginOptions({ entry: { 'super-app': './src/super-app.js' } })
+      const expected = { entry: { 'super-app': './src/super-app.js' } }
+      expect(actual).toEqual(expected)
+    })
   })
 
   describe('isWebpackEntryObject', () => {
-    it('should return false if the provided entry is null', () => {
+    test('should return false if the provided entry is null', () => {
       // @ts-expect-error intentionally providing invalid entry option of null
       const actual = isWebpackEntryObject(null)
-      expect(actual).toBeFalse()
+      expect(actual).toBe(false)
     })
 
-    it('should return false if the provided entry is undefined', () => {
+    test('should return false if the provided entry is undefined', () => {
       const actual = isWebpackEntryObject(undefined)
-      expect(actual).toBeFalse()
+      expect(actual).toBe(false)
     })
 
-    it('should return false if the provided entry is a string', () => {
+    test('should return false if the provided entry is a string', () => {
       const actual = isWebpackEntryObject('./src/app.js')
-      expect(actual).toBeFalse()
+      expect(actual).toBe(false)
     })
 
-    it('should return false if the provided entry is a function', () => {
+    test('should return false if the provided entry is a function', () => {
       const actual = isWebpackEntryObject(() => './src/app.js')
-      expect(actual).toBeFalse()
+      expect(actual).toBe(false)
     })
 
-    it('should return false if the provided entry is an array', () => {
+    test('should return false if the provided entry is an array', () => {
       const actual = isWebpackEntryObject(['./src/app.js', './src/app2.js'])
-      expect(actual).toBeFalse()
+      expect(actual).toBe(false)
     })
 
-    it('should return the provided entry if the provided entry is an object', () => {
+    test('should return the provided entry if the provided entry is an object', () => {
       const actual = isWebpackEntryObject({ app: './src/app.js' })
       const expected = { app: './src/app.js' }
       expect(actual).toEqual(expected)
@@ -58,13 +65,13 @@ describe('helpers', () => {
   })
 
   describe('overlappingKeys', () => {
-    it('should return an empty array if no keys overlap between objects', () => {
+    test('should return an empty array if no keys overlap between objects', () => {
       const actual = overlappingKeys({ a: 'a', c: 'c' }, { b: 'b', d: 'd' })
       const expected: string[] = []
       expect(actual).toEqual(expected)
     })
 
-    it('should return an array of keys that overlap between objects', () => {
+    test('should return an array of keys that overlap between objects', () => {
       const actual = overlappingKeys({ a: 'a', c: 'c' }, { a: 'apples', c: 'cats' })
       const expected: string[] = ['a', 'c']
       expect(actual).toEqual(expected)

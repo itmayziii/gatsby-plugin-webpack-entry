@@ -1,12 +1,12 @@
+import { describe, beforeEach, expect, test, jest } from '@jest/globals'
 import { onCreateWebpackConfig } from './gatsby-node'
-import Spy = jasmine.Spy
 import { type Configuration } from 'webpack'
 import { type PluginOptions } from './interfaces'
 
 describe('gatsby-node', () => {
   describe('onCreateWebpackConfig', () => {
     let webpackConfig: Configuration
-    let replaceWebpackConfigSpy: Spy
+    let replaceWebpackConfigMock: jest.Mock<(config: Configuration) => void>
 
     function getConfig (): Configuration {
       return webpackConfig
@@ -18,30 +18,30 @@ describe('gatsby-node', () => {
           app: 'app.js'
         }
       }
-      replaceWebpackConfigSpy = jasmine.createSpy<any>('replaceWebpackConfig')
+      replaceWebpackConfigMock = jest.fn().mockName('replaceWebpackConfig')
     })
 
-    it('should not do anything if the stage is not "develop" or "build-javascript"', () => {
+    test('should not do anything if the stage is not "develop" or "build-javascript"', () => {
       const actual = (stage: string) => () => {
         onCreateWebpackConfig({
           stage,
           getConfig,
-          actions: { replaceWebpackConfig: replaceWebpackConfigSpy }
+          actions: { replaceWebpackConfig: replaceWebpackConfigMock }
         }, { entry: { 'super-app': './src/super-app.js' } })
       }
       actual('bananas')
       actual('do-not-build-javascript')
-      expect(replaceWebpackConfigSpy).toHaveBeenCalledTimes(0)
+      expect(replaceWebpackConfigMock).toHaveBeenCalledTimes(0)
     })
 
-    it('should throw an error if validating the plugin options fails', () => {
+    test('should throw an error if validating the plugin options fails', () => {
       // entry is not allowed to be undefined
       const invalidPluginOptions: PluginOptions = { entry: undefined }
       const actual = (stage: string) => () => {
         onCreateWebpackConfig({
           stage,
           getConfig,
-          actions: { replaceWebpackConfig: replaceWebpackConfigSpy }
+          actions: { replaceWebpackConfig: replaceWebpackConfigMock }
         }, invalidPluginOptions)
       }
 
@@ -49,11 +49,10 @@ describe('gatsby-node', () => {
       expect(actual('build-javascript')).toThrow()
     })
 
-    it('should throw an error if Gatsby\'s Webpack entry configuration is not using the object syntax', () => {
+    test('should throw an error if Gatsby\'s Webpack entry configuration is not using the object syntax', () => {
       webpackConfig = {
         entry: './src/gatsby-app.js'
       }
-      replaceWebpackConfigSpy = jasmine.createSpy<any>('replaceWebpackConfig')
 
       const expectedError = new Error([
         'gatsby-plugin-webpack-entry: Gatsby\'s Webpack configuration is not what this plugin is expecting.',
@@ -65,7 +64,7 @@ describe('gatsby-node', () => {
         onCreateWebpackConfig({
           stage,
           getConfig,
-          actions: { replaceWebpackConfig: replaceWebpackConfigSpy }
+          actions: { replaceWebpackConfig: replaceWebpackConfigMock }
         }, { entry: { 'super-app': './src/super-app.js' } })
       }
 
@@ -73,17 +72,17 @@ describe('gatsby-node', () => {
       expect(actual('build-javascript')).toThrow(expectedError)
     })
 
-    it('should throw an error provided entry keys overlap with existing Gatsby Webpack entry config', () => {
+    test('should throw an error provided entry keys overlap with existing Gatsby Webpack entry config', () => {
       const expectedError = new Error([
         'gatsby-plugin-webpack-entry: Provided plugin "entry" option has keys that would overlap with Gatsby.',
-        'You should ovoid overlapping keys as it will override the JavaScript Gatsby is attempting to compile with',
+        'You should avoid overlapping keys as it will override the JavaScript Gatsby is attempting to compile with',
         'Webpack. Overlapping keys: app'
       ].join(' '))
       const actual = (stage: string) => () => {
         onCreateWebpackConfig({
           stage,
           getConfig,
-          actions: { replaceWebpackConfig: replaceWebpackConfigSpy }
+          actions: { replaceWebpackConfig: replaceWebpackConfigMock }
         }, { entry: { app: './src/super-app.js' } })
       }
 
@@ -92,16 +91,15 @@ describe('gatsby-node', () => {
     })
 
     // https://webpack.js.org/concepts/entry-points/#entrydescription-object
-    it('should include the entry value without modification if the object is an EntryDescription object', () => {
+    test('should include the entry value without modification if the object is an EntryDescription object', () => {
       const actual = (stage: string): void => {
         onCreateWebpackConfig({
           stage,
           getConfig,
-          actions: { replaceWebpackConfig: replaceWebpackConfigSpy }
+          actions: { replaceWebpackConfig: replaceWebpackConfigMock }
         },
         {
-          // @ts-expect-error provided options are valid Webpack configuration but the type does not seem to exist
-          //  https://webpack.js.org/concepts/entry-points/#entrydescription-object
+          // https://webpack.js.org/concepts/entry-points/#entrydescription-object
           entry: {
             [`${stage}-b2`]: {
               runtime: 'x2',
@@ -121,7 +119,7 @@ describe('gatsby-node', () => {
           import: './b'
         }
       }
-      expect(replaceWebpackConfigSpy.calls.argsFor(0)[0].entry).toEqual(expected)
+      expect(replaceWebpackConfigMock.mock.calls[0][0].entry).toEqual(expected)
 
       actual('build-javascript')
       expected = {
@@ -132,22 +130,22 @@ describe('gatsby-node', () => {
           import: './b'
         }
       }
-      expect(replaceWebpackConfigSpy.calls.argsFor(1)[0].entry).toEqual(expected)
+      expect(replaceWebpackConfigMock.mock.calls[1][0].entry).toEqual(expected)
 
-      expect(replaceWebpackConfigSpy).toHaveBeenCalledTimes(2)
+      expect(replaceWebpackConfigMock).toHaveBeenCalledTimes(2)
     })
 
     describe('stage = "develop" i.e. "gatsby develop"', () => {
       const stage = 'develop'
 
-      it('should include the webpack-hot-middleware if entry value is a string', () => {
+      test('should include the webpack-hot-middleware if entry value is a string', () => {
         onCreateWebpackConfig({
           stage,
           getConfig,
-          actions: { replaceWebpackConfig: replaceWebpackConfigSpy }
+          actions: { replaceWebpackConfig: replaceWebpackConfigMock }
         },
         { entry: { 'super-app': './src/super-app.js' } })
-        expect(replaceWebpackConfigSpy).toHaveBeenCalledTimes(1)
+        expect(replaceWebpackConfigMock).toHaveBeenCalledTimes(1)
         const expected = {
           app: 'app.js',
           'super-app': [
@@ -155,17 +153,17 @@ describe('gatsby-node', () => {
             './src/super-app.js'
           ]
         }
-        expect(replaceWebpackConfigSpy.calls.argsFor(0)[0].entry).toEqual(expected)
+        expect(replaceWebpackConfigMock.mock.calls[0][0].entry).toEqual(expected)
       })
 
-      it('should include the webpack-hot-middleware if entry value is an array of strings', () => {
+      test('should include the webpack-hot-middleware if entry value is an array of strings', () => {
         onCreateWebpackConfig({
           stage,
           getConfig,
-          actions: { replaceWebpackConfig: replaceWebpackConfigSpy }
+          actions: { replaceWebpackConfig: replaceWebpackConfigMock }
         },
         { entry: { 'super-app': ['./src/super-app.js', './src/super-app-2.js'] } })
-        expect(replaceWebpackConfigSpy).toHaveBeenCalledTimes(1)
+        expect(replaceWebpackConfigMock).toHaveBeenCalledTimes(1)
         const expected = {
           app: 'app.js',
           'super-app': [
@@ -174,36 +172,36 @@ describe('gatsby-node', () => {
             './src/super-app-2.js'
           ]
         }
-        expect(replaceWebpackConfigSpy.calls.argsFor(0)[0].entry).toEqual(expected)
+        expect(replaceWebpackConfigMock.mock.calls[0][0].entry).toEqual(expected)
       })
     })
 
     describe('stage = "build-javascript" i.e. "gatsby build"', () => {
       const stage = 'build-javascript'
 
-      it('should include the provided script if the entry value is a string', () => {
+      test('should include the provided script if the entry value is a string', () => {
         onCreateWebpackConfig({
           stage,
           getConfig,
-          actions: { replaceWebpackConfig: replaceWebpackConfigSpy }
+          actions: { replaceWebpackConfig: replaceWebpackConfigMock }
         },
         { entry: { 'super-app': './src/super-app.js' } })
-        expect(replaceWebpackConfigSpy).toHaveBeenCalledTimes(1)
+        expect(replaceWebpackConfigMock).toHaveBeenCalledTimes(1)
         const expected = {
           app: 'app.js',
           'super-app': './src/super-app.js'
         }
-        expect(replaceWebpackConfigSpy.calls.argsFor(0)[0].entry).toEqual(expected)
+        expect(replaceWebpackConfigMock.mock.calls[0][0].entry).toEqual(expected)
       })
 
-      it('should include the provided script if the entry value is an array of strings', () => {
+      test('should include the provided script if the entry value is an array of strings', () => {
         onCreateWebpackConfig({
           stage,
           getConfig,
-          actions: { replaceWebpackConfig: replaceWebpackConfigSpy }
+          actions: { replaceWebpackConfig: replaceWebpackConfigMock }
         },
         { entry: { 'super-app': ['./src/super-app.js', './src/super-app-2.js'] } })
-        expect(replaceWebpackConfigSpy).toHaveBeenCalledTimes(1)
+        expect(replaceWebpackConfigMock).toHaveBeenCalledTimes(1)
         const expected = {
           app: 'app.js',
           'super-app': [
@@ -211,7 +209,7 @@ describe('gatsby-node', () => {
             './src/super-app-2.js'
           ]
         }
-        expect(replaceWebpackConfigSpy.calls.argsFor(0)[0].entry).toEqual(expected)
+        expect(replaceWebpackConfigMock.mock.calls[0][0].entry).toEqual(expected)
       })
     })
   })

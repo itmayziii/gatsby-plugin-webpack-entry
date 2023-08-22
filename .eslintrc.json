@@ -1,9 +1,25 @@
 {
   "root": true,
-  "extends": "standard-with-typescript",
-  "parserOptions": {
-    "project": "./tsconfig.test.json"
-  },
+  "overrides": [
+    {
+      "files": ["nightwatch.conf.js", "jest-config.js"],
+      "extends": "standard"
+    },
+    {
+      "files": ["./src/*.ts", "./src/*.tsx"],
+      "extends": "standard-with-typescript",
+      "parserOptions": {
+        "project": "./tsconfig.test.json"
+      }
+    },
+    {
+      "files": ["./test/end-to-end/*.ts", "./end-to-end/*.tsx"],
+      "extends": "standard-with-typescript",
+      "parserOptions": {
+        "project": "./test/end-to-end/tsconfig.json"
+      }
+    }
+  ],
   "rules": {
     "max-len": [
       "error",

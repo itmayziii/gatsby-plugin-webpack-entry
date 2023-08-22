@@ -1,0 +1,146 @@
+{
+  "errors": [],
+  "warnings": [],
+  "namedChunkGroups": {
+    "polyfill": {
+      "chunks": [
+        1,
+        8
+      ],
+      "assets": [
+        "webpack-runtime-1907cc92052570b16763.js",
+        "webpack-runtime-1907cc92052570b16763.js.map",
+        "polyfill-85708086580052789ea1.js",
+        "polyfill-85708086580052789ea1.js.map"
+      ],
+      "children": {},
+      "childAssets": {}
+    },
+    "app": {
+      "chunks": [
+        1,
+        7,
+        2
+      ],
+      "assets": [
+        "webpack-runtime-1907cc92052570b16763.js",
+        "webpack-runtime-1907cc92052570b16763.js.map",
+        "framework-9d2233ab751940aaa81d.js",
+        "framework-9d2233ab751940aaa81d.js.map",
+        "app-530e4776a398ed4a4b97.js",
+        "app-530e4776a398ed4a4b97.js.map"
+      ],
+      "children": {},
+      "childAssets": {}
+    },
+    "super-app": {
+      "chunks": [
+        1,
+        9
+      ],
+      "assets": [
+        "webpack-runtime-1907cc92052570b16763.js",
+        "webpack-runtime-1907cc92052570b16763.js.map",
+        "super-app-7778797f4d8db8ef4ed1.js",
+        "super-app-7778797f4d8db8ef4ed1.js.map"
+      ],
+      "children": {},
+      "childAssets": {}
+    },
+    "component---src-pages-404-js": {
+      "chunks": [
+        0,
+        3
+      ],
+      "assets": [
+        "styles.b45e2bc56d5d5ce10036.css",
+        "styles-0ec71dd62c66cb95665c.js",
+        "styles-0ec71dd62c66cb95665c.js.map",
+        "component---src-pages-404-js-858f4126f6ff1b30a7ba.js",
+        "component---src-pages-404-js-858f4126f6ff1b30a7ba.js.map"
+      ],
+      "children": {},
+      "childAssets": {}
+    },
+    "component---src-pages-index-js": {
+      "chunks": [
+        0,
+        4
+      ],
+      "assets": [
+        "styles.b45e2bc56d5d5ce10036.css",
+        "styles-0ec71dd62c66cb95665c.js",
+        "styles-0ec71dd62c66cb95665c.js.map",
+        "component---src-pages-index-js-761fa33d6e51a5f490cf.js",
+        "component---src-pages-index-js-761fa33d6e51a5f490cf.js.map"
+      ],
+      "children": {},
+      "childAssets": {}
+    },
+    "component---src-pages-page-2-js": {
+      "chunks": [
+        0,
+        5
+      ],
+      "assets": [
+        "styles.b45e2bc56d5d5ce10036.css",
+        "styles-0ec71dd62c66cb95665c.js",
+        "styles-0ec71dd62c66cb95665c.js.map",
+        "component---src-pages-page-2-js-65d055615e9a57e62c5d.js",
+        "component---src-pages-page-2-js-65d055615e9a57e62c5d.js.map"
+      ],
+      "children": {},
+      "childAssets": {}
+    },
+    "component---src-templates-using-dsg-js": {
+      "chunks": [
+        0,
+        6
+      ],
+      "assets": [
+        "styles.b45e2bc56d5d5ce10036.css",
+        "styles-0ec71dd62c66cb95665c.js",
+        "styles-0ec71dd62c66cb95665c.js.map",
+        "component---src-templates-using-dsg-js-e48439fe0a8ffd20f88d.js",
+        "component---src-templates-using-dsg-js-e48439fe0a8ffd20f88d.js.map"
+      ],
+      "children": {},
+      "childAssets": {}
+    }
+  },
+  "assetsByChunkName": {
+    "polyfill": [
+      "webpack-runtime-1907cc92052570b16763.js",
+      "polyfill-85708086580052789ea1.js"
+    ],
+    "app": [
+      "webpack-runtime-1907cc92052570b16763.js",
+      "framework-9d2233ab751940aaa81d.js",
+      "app-530e4776a398ed4a4b97.js"
+    ],
+    "super-app": [
+      "webpack-runtime-1907cc92052570b16763.js",
+      "super-app-7778797f4d8db8ef4ed1.js"
+    ],
+    "component---src-pages-404-js": [
+      "styles.b45e2bc56d5d5ce10036.css",
+      "styles-0ec71dd62c66cb95665c.js",
+      "component---src-pages-404-js-858f4126f6ff1b30a7ba.js"
+    ],
+    "component---src-pages-index-js": [
+      "styles.b45e2bc56d5d5ce10036.css",
+      "styles-0ec71dd62c66cb95665c.js",
+      "component---src-pages-index-js-761fa33d6e51a5f490cf.js"
+    ],
+    "component---src-pages-page-2-js": [
+      "styles.b45e2bc56d5d5ce10036.css",
+      "styles-0ec71dd62c66cb95665c.js",
+      "component---src-pages-page-2-js-65d055615e9a57e62c5d.js"
+    ],
+    "component---src-templates-using-dsg-js": [
+      "styles.b45e2bc56d5d5ce10036.css",
+      "styles-0ec71dd62c66cb95665c.js",
+      "component---src-templates-using-dsg-js-e48439fe0a8ffd20f88d.js"
+    ]
+  }
+}

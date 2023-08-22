@@ -1,5 +1,5 @@
 import { type PluginOptions, type ValidatedPluginOptions } from './interfaces'
-import { type Configuration, type Entry } from 'webpack'
+import { type Configuration, type EntryObject } from 'webpack'
 
 export function validatePluginOptions (pluginOptions: Partial<PluginOptions>): ValidatedPluginOptions {
   const pluginEntry = isWebpackEntryObject(pluginOptions.entry)
@@ -25,7 +25,7 @@ export function validatePluginOptions (pluginOptions: Partial<PluginOptions>): V
   }
 }
 
-export function isWebpackEntryObject (webpackEntry: Configuration['entry']): Entry | false {
+export function isWebpackEntryObject (webpackEntry: Configuration['entry']): EntryObject | false {
   if (webpackEntry == null ||
     typeof webpackEntry === 'string' ||
     typeof webpackEntry === 'function' ||
@@ -34,9 +34,9 @@ export function isWebpackEntryObject (webpackEntry: Configuration['entry']): Ent
   return webpackEntry
 }
 
-export function overlappingKeys (object1: object, object2: object): string[] {
+export function overlappingKeys (object1: Record<string, unknown>, object2: Record<string, unknown>): string[] {
   return Object.keys(object1).reduce<string[]>((overlapping, key) => {
-    if (Object.hasOwn(object2, key) === true) {
+    if (Object.hasOwn(object2, key)) {
       overlapping = [...overlapping, key]
     }
 

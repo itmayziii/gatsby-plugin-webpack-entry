@@ -1,11 +1,11 @@
 import { type ReactNode } from 'react'
-import { type Configuration, type Entry } from 'webpack'
+import { type Configuration, type EntryObject } from 'webpack'
 
 export interface OnCreateWebpackConfigArgs {
   stage: string
   getConfig: () => Configuration
   actions: {
-    replaceWebpackConfig: (config: unknown) => void
+    replaceWebpackConfig: (config: Configuration) => void
   }
 }
 
@@ -20,7 +20,7 @@ export interface PluginOptions {
 }
 
 export interface ValidatedPluginOptions extends PluginOptions {
-  entry: Entry
+  entry: EntryObject
 }
 
 export interface GatsbyAssets {

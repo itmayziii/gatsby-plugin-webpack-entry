@@ -4,9 +4,12 @@
     "strict": true,
     "sourceMap": true,
     "target": "ES2015",
+    "module": "CommonJS",
     "moduleResolution": "node",
     "esModuleInterop": true,
     "rootDir": "src",
+    "removeComments": true,
+    "skipLibCheck": true,
     "lib": [
       "ES2022",
       "dom"
@@ -14,10 +17,10 @@
     "jsx": "react"
   },
   "include": [
-    "src/**/*"
+    "./src/**/*"
   ],
   "exclude": [
     "node_modules",
-    "src/**/*.spec.ts"
+    "./src/**/*.spec.ts"
   ]
 }

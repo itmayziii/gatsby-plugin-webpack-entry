@@ -12,4 +12,4 @@ helpers.js
 *.js.map
 
 # Test Coverage #
-.nyc_output/
+test/coverage/
