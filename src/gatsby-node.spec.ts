@@ -2,9 +2,10 @@ import { describe, beforeEach, expect, test, jest } from '@jest/globals'
 import gatsbyNode from './gatsby-node'
 import { type Configuration } from 'webpack'
 import { type PluginCallback, type PluginOptions, type CreateWebpackConfigArgs } from 'gatsby'
+import GatsbyPluginWebpackEntryStatsPlugin from './gatsby-plugin-webpack-entry-stats-plugin'
 
 describe('gatsby-node', () => {
-  describe('onCreateWebpackConfig', () => {
+  describe('onCreateWebpackConfig()', () => {
     let webpackConfig: Configuration
     let replaceWebpackConfigMock: jest.Mock<(config: Configuration) => void>
     let onCreateWebpackConfigCb: jest.Mock<PluginCallback>
@@ -193,6 +194,12 @@ describe('gatsby-node', () => {
       })
 
       test('should include the provided script if the entry value is an array of strings', async () => {
+        webpackConfig = {
+          entry: {
+            app: 'app.js'
+          },
+          plugins: []
+        }
         await gatsbyNode?.onCreateWebpackConfig(
           { ...createWebpackConfigArgs, stage },
           { entry: { 'super-app': ['./src/super-app.js', './src/super-app-2.js'] }, plugins: [] },
@@ -206,6 +213,8 @@ describe('gatsby-node', () => {
           ]
         }
         expect(replaceWebpackConfigMock.mock.calls[0][0].entry).toEqual(expected)
+        expect((replaceWebpackConfigMock.mock.calls[0][0].plugins as any)[0])
+          .toBeInstanceOf(GatsbyPluginWebpackEntryStatsPlugin)
       })
     })
   })

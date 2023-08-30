@@ -2,7 +2,7 @@ import { describe, test, expect } from '@jest/globals'
 import { isWebpackEntryObject, overlappingKeys, validatePluginOptions } from './utilities'
 
 describe('helpers', () => {
-  describe('validatePluginOptions', () => {
+  describe('validatePluginOptions()', () => {
     test('should throw an error if the entry option is not a webpack entry object', () => {
       const expectedError = new Error([
         'gatsby-plugin-webpack-entry: Option "entry" must use Webpack\'s object syntax.',
@@ -38,7 +38,7 @@ describe('helpers', () => {
     })
   })
 
-  describe('isWebpackEntryObject', () => {
+  describe('isWebpackEntryObject()', () => {
     test('should return false if the provided entry is null', () => {
       const actual = isWebpackEntryObject(null)
       expect(actual).toBe(false)
@@ -70,7 +70,7 @@ describe('helpers', () => {
     })
   })
 
-  describe('overlappingKeys', () => {
+  describe('overlappingKeys()', () => {
     test('should return an empty array if no keys overlap between objects', () => {
       const actual = overlappingKeys({ a: 'a', c: 'c' }, { b: 'b', d: 'd' })
       const expected: string[] = []

@@ -4,17 +4,17 @@ import gatsbySsr from './gatsby-ssr'
 import { type RenderBodyArgs } from 'gatsby'
 
 describe('gatsby-ssr', () => {
-  describe('onRenderBody', () => {
-    let setHeadComponentsSpy: jest.Mock<RenderBodyArgs['setHeadComponents']>
-    let setPostBodyComponentsSpy: jest.Mock<RenderBodyArgs['setPostBodyComponents']>
+  describe('onRenderBody()', () => {
+    let setHeadComponentsMock: jest.Mock<RenderBodyArgs['setHeadComponents']>
+    let setPostBodyComponentsMock: jest.Mock<RenderBodyArgs['setPostBodyComponents']>
     let onRenderBodyArgs: RenderBodyArgs
     beforeEach(() => {
-      setHeadComponentsSpy = jest.fn().mockName('setHeadComponents')
-      setPostBodyComponentsSpy = jest.fn().mockName('setPostBodyComponents')
+      setHeadComponentsMock = jest.fn().mockName('setHeadComponents')
+      setPostBodyComponentsMock = jest.fn().mockName('setPostBodyComponents')
       // @ts-expect-error we don't care about the other properties for this test
       onRenderBodyArgs = {
-        setPostBodyComponents: setPostBodyComponentsSpy,
-        setHeadComponents: setHeadComponentsSpy
+        setPostBodyComponents: setPostBodyComponentsMock,
+        setHeadComponents: setHeadComponentsMock
       }
     })
 
@@ -35,10 +35,10 @@ describe('gatsby-ssr', () => {
           webpackStatsFilePath: path.resolve(__dirname, '../test/fixtures/gatsby-ssr/good-stats.json')
         })
 
-        expect(setHeadComponentsSpy).toHaveBeenCalledTimes(1)
-        expect(setHeadComponentsSpy.mock.calls[0].length).toEqual(1)
-        expect(setPostBodyComponentsSpy).toHaveBeenCalledTimes(1)
-        expect(setHeadComponentsSpy.mock.calls[0].length).toEqual(1)
+        expect(setHeadComponentsMock).toHaveBeenCalledTimes(1)
+        expect(setHeadComponentsMock.mock.calls[0].length).toEqual(1)
+        expect(setPostBodyComponentsMock).toHaveBeenCalledTimes(1)
+        expect(setHeadComponentsMock.mock.calls[0].length).toEqual(1)
       })
     })
 
@@ -149,10 +149,10 @@ describe('gatsby-ssr', () => {
           webpackStatsFilePath: path.resolve(__dirname, '../test/fixtures/gatsby-ssr/good-stats.json')
         })
 
-        expect(setHeadComponentsSpy).toHaveBeenCalledTimes(1)
-        expect(setHeadComponentsSpy.mock.calls[0].length).toEqual(1)
-        expect(setPostBodyComponentsSpy).toHaveBeenCalledTimes(1)
-        expect(setHeadComponentsSpy.mock.calls[0].length).toEqual(1)
+        expect(setHeadComponentsMock).toHaveBeenCalledTimes(1)
+        expect(setHeadComponentsMock.mock.calls[0].length).toEqual(1)
+        expect(setPostBodyComponentsMock).toHaveBeenCalledTimes(1)
+        expect(setHeadComponentsMock.mock.calls[0].length).toEqual(1)
       })
     })
   })
