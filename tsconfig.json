@@ -10,6 +10,7 @@
     "rootDir": "src",
     "removeComments": true,
     "skipLibCheck": true,
+    "resolveJsonModule": true,
     "lib": [
       "ES2022",
       "dom"

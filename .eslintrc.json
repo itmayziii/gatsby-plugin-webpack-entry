@@ -1,22 +1,36 @@
 {
   "root": true,
+  "extends": ["plugin:react/recommended", "standard"],
+  "parserOptions": {
+    "sourceType": "module",
+    "ecmaVersion": "latest"
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
   "overrides": [
-    {
-      "files": ["nightwatch.conf.js", "jest-config.js"],
-      "extends": "standard"
-    },
     {
       "files": ["./src/*.ts", "./src/*.tsx"],
       "extends": "standard-with-typescript",
       "parserOptions": {
         "project": "./tsconfig.test.json"
+      },
+      "plugins": ["tsdoc"],
+      "rules": {
+        "tsdoc/syntax": "warn"
       }
     },
     {
       "files": ["./test/end-to-end/*.ts", "./end-to-end/*.tsx"],
       "extends": "standard-with-typescript",
       "parserOptions": {
-        "project": "./test/end-to-end/tsconfig.json"
+        "project": "./tsconfig.nightwatch.json"
+      },
+      "plugins": ["tsdoc"],
+      "rules": {
+        "tsdoc/syntax": "warn"
       }
     }
   ],

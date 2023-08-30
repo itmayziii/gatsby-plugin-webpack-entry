@@ -1,15 +1,21 @@
 import { describe, test, expect, beforeEach, beforeAll, afterAll, jest } from '@jest/globals'
-import * as path from 'path'
-import { onRenderBody } from './gatsby-ssr'
-import { type OnRenderBodyArgs } from './interfaces'
+import path from 'path'
+import gatsbySsr from './gatsby-ssr'
+import { type RenderBodyArgs } from 'gatsby'
 
 describe('gatsby-ssr', () => {
   describe('onRenderBody', () => {
-    let setHeadComponentsSpy: jest.Mock<OnRenderBodyArgs['setHeadComponents']>
-    let setPostBodyComponentsSpy: jest.Mock<OnRenderBodyArgs['setPostBodyComponents']>
+    let setHeadComponentsSpy: jest.Mock<RenderBodyArgs['setHeadComponents']>
+    let setPostBodyComponentsSpy: jest.Mock<RenderBodyArgs['setPostBodyComponents']>
+    let onRenderBodyArgs: RenderBodyArgs
     beforeEach(() => {
       setHeadComponentsSpy = jest.fn().mockName('setHeadComponents')
       setPostBodyComponentsSpy = jest.fn().mockName('setPostBodyComponents')
+      // @ts-expect-error we don't care about the other properties for this test
+      onRenderBodyArgs = {
+        setPostBodyComponents: setPostBodyComponentsSpy,
+        setHeadComponents: setHeadComponentsSpy
+      }
     })
 
     describe('process.env.NODE_ENV = "development"', () => {
@@ -23,11 +29,9 @@ describe('gatsby-ssr', () => {
       })
 
       test('should set the head and post body scripts for each entry', () => {
-        onRenderBody({
-          setHeadComponents: setHeadComponentsSpy,
-          setPostBodyComponents: setPostBodyComponentsSpy
-        }, {
+        gatsbySsr?.onRenderBody(onRenderBodyArgs, {
           entry: { 'super-app': 'super-app.js' },
+          plugins: [],
           webpackStatsFilePath: path.resolve(__dirname, '../test/fixtures/gatsby-ssr/good-stats.json')
         })
 
@@ -49,32 +53,35 @@ describe('gatsby-ssr', () => {
       })
 
       test('should throw an error if the webpack stat file can not be read', () => {
+        const expectedError = new Error([
+          'gatsby-plugin-webpack-entry: Unable to read Webpack stats file.',
+          'Please open an issue at https://github.com/itmayziii/gatsby-plugin-webpack-entry/issues/new/choose.',
+          'https://webpack.js.org/api/stats/.'
+        ].join(' '))
         expect(() => {
-          onRenderBody({
-            setHeadComponents: setHeadComponentsSpy,
-            setPostBodyComponents: setPostBodyComponentsSpy
-          }, {
+          gatsbySsr?.onRenderBody(onRenderBodyArgs, {
             entry: { 'super-app': 'super-app.js' },
+            plugins: [],
             webpackStatsFilePath: path.resolve(__dirname, 'does-not-exist.json')
           })
         })
-          // eslint-disable-next-line max-len
-          .toThrow(/^gatsby-plugin-webpack-entry: Unable to read Webpack stats file at path (.*)\. https:\/\/webpack.js.org\/api\/stats\/\.$/)
+          .toThrow(expectedError)
       })
 
       test('should throw an error if the webpack stat file can not be JSON parsed', () => {
+        const expectedError = new Error([
+          'gatsby-plugin-webpack-entry: Unable to read Webpack stats file.',
+          'Please open an issue at https://github.com/itmayziii/gatsby-plugin-webpack-entry/issues/new/choose.',
+          'https://webpack.js.org/api/stats/.'
+        ].join(' '))
         expect(() => {
-          onRenderBody({
-            setHeadComponents: setHeadComponentsSpy,
-            setPostBodyComponents: setPostBodyComponentsSpy
-          }, {
+          gatsbySsr?.onRenderBody(onRenderBodyArgs, {
             entry: { 'super-app': 'super-app.js' },
+            plugins: [],
             webpackStatsFilePath: path.resolve(__dirname, '../test/fixtures/gatsby-ssr/malformed-stats.json')
           })
-        }
-        )
-          // eslint-disable-next-line max-len
-          .toThrow(/^gatsby-plugin-webpack-entry: Unable to read Webpack stats file at path (.*)\. https:\/\/webpack.js.org\/api\/stats\/\.$/)
+        })
+          .toThrow(expectedError)
       })
 
       test('should throw an error if "assetsByChunkName" property is missing from webpack stats file', () => {
@@ -86,13 +93,13 @@ describe('gatsby-ssr', () => {
           'https://webpack.js.org/api/stats/.'
         ].join(' '))
         expect(() => {
-          onRenderBody({
-            setHeadComponents: setHeadComponentsSpy,
-            setPostBodyComponents: setPostBodyComponentsSpy
-          }, {
+          gatsbySsr?.onRenderBody(onRenderBodyArgs, {
             entry: { 'super-app': 'super-app.js' },
+            plugins: [],
             webpackStatsFilePath: path.resolve(
-              __dirname, '../test/fixtures/gatsby-ssr/missing-assets-by-chunk-name-stats.json')
+              __dirname,
+              '../test/fixtures/gatsby-ssr/missing-assets-by-chunk-name-stats.json'
+            )
           })
         }
         ).toThrow(expectedError)
@@ -107,13 +114,13 @@ describe('gatsby-ssr', () => {
           'https://webpack.js.org/api/stats/.'
         ].join(' '))
         expect(() => {
-          onRenderBody({
-            setHeadComponents: setHeadComponentsSpy,
-            setPostBodyComponents: setPostBodyComponentsSpy
-          }, {
+          gatsbySsr?.onRenderBody(onRenderBodyArgs, {
             entry: { 'super-app': 'super-app.js' },
+            plugins: [],
             webpackStatsFilePath: path.resolve(
-              __dirname, '../test/fixtures/gatsby-ssr/missing-assets-by-chunk-name-entry-stats.json')
+              __dirname,
+              '../test/fixtures/gatsby-ssr/missing-assets-by-chunk-name-entry-stats.json'
+            )
           })
         }
         ).toThrow(expectedError)
@@ -121,25 +128,24 @@ describe('gatsby-ssr', () => {
 
       test('should use default path to the webpack stats file if the "webpackStatsFilePath" is not provided', () => {
         // Only an error because the default path does not exist in our test data, but would exist in a Gatsby repo
+        const expectedError = new Error([
+          'gatsby-plugin-webpack-entry: Unable to read Webpack stats file.',
+          'Please open an issue at https://github.com/itmayziii/gatsby-plugin-webpack-entry/issues/new/choose.',
+          'https://webpack.js.org/api/stats/.'
+        ].join(' '))
         expect(() => {
-          onRenderBody({
-            setHeadComponents: setHeadComponentsSpy,
-            setPostBodyComponents: setPostBodyComponentsSpy
-          }, {
-            entry: { 'super-app': 'super-app.js' }
+          gatsbySsr?.onRenderBody(onRenderBodyArgs, {
+            entry: { 'super-app': 'super-app.js' },
+            plugins: []
           })
-        }
-        )
-          // eslint-disable-next-line max-len
-          .toThrow(/^gatsby-plugin-webpack-entry: Unable to read Webpack stats file at path (.*public\/webpack.stats.json)\. https:\/\/webpack.js.org\/api\/stats\/\.$/)
+        })
+          .toThrow(expectedError)
       })
 
       test('should set the head and post body scripts for each entry', () => {
-        onRenderBody({
-          setHeadComponents: setHeadComponentsSpy,
-          setPostBodyComponents: setPostBodyComponentsSpy
-        }, {
+        gatsbySsr?.onRenderBody(onRenderBodyArgs, {
           entry: { 'super-app': 'super-app.js' },
+          plugins: [],
           webpackStatsFilePath: path.resolve(__dirname, '../test/fixtures/gatsby-ssr/good-stats.json')
         })
 

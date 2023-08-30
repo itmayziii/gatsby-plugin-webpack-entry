@@ -1,15 +1,21 @@
+# OS Files
+.DS_Store
+
+# Packages
 node_modules/
 
-# IDE #
+# IDE
 .idea/
 
-# Built Files #
+# Build/Output
 gatsby-ssr.js
 gatsby-node.js
 interfaces.js
-helpers.js
+utilities.js
+gatsby-plugin-webpack-entry-stats-plugin.js
 *.spec.js
 *.js.map
-
-# Test Coverage #
 test/coverage/
+test/end-to-end/logs
+test/end-to-end/output
+gatsby-stats.json

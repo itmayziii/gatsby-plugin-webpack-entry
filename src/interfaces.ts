@@ -1,26 +1,21 @@
 import { type ReactNode } from 'react'
-import { type Configuration, type EntryObject } from 'webpack'
+import { type EntryObject } from 'webpack'
 
-export interface OnCreateWebpackConfigArgs {
-  stage: string
-  getConfig: () => Configuration
-  actions: {
-    replaceWebpackConfig: (config: Configuration) => void
-  }
-}
-
-export interface OnRenderBodyArgs {
-  setHeadComponents: (reactNodes: ReactNode[]) => void
-  setPostBodyComponents: (reactNodes: ReactNode[]) => void
-}
-
-export interface PluginOptions {
-  entry: Configuration['entry']
-  webpackStatsFilePath?: string
-}
-
-export interface ValidatedPluginOptions extends PluginOptions {
+/**
+ * Plugin options supplied by the plugin consumer but have been validated to match what we expect
+ */
+export interface ValidatedPluginOptions {
+  /**
+   * Webpack's entry point property using the
+   * {@link https://webpack.js.org/concepts/entry-points/#object-syntax | object syntax}.
+   */
   entry: EntryObject
+  /**
+   * Path to the {@link https://webpack.js.org/api/stats/ | Webpack stats} file path. A plugin consumer should never
+   * supply this value as it exists only for testing purposes.
+   * @internal
+   */
+  webpackStatsFilePath?: string
 }
 
 export interface GatsbyAssets {

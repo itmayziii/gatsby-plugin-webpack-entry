@@ -14,7 +14,8 @@
 module.exports = {
   // An array of folders (excluding subfolders) where your tests are located;
   // if this is not specified, the test source must be passed as the second argument to the test runner.
-  src_folders: ['end-to-end'],
+  src_folders: ['test/end-to-end'],
+  output_folder: ['test/end-to-end/output'],
 
   // See https://nightwatchjs.org/guide/concepts/page-object-model.html
   page_objects_path: [],
@@ -54,9 +55,9 @@ module.exports = {
 
       webdriver: {
         start_process: true,
-        server_path: ''
+        server_path: '',
+        log_path: './node_modules/.cache/test/end-to-end/logs'
       }
-
     },
 
     chrome: {
@@ -81,7 +82,8 @@ module.exports = {
         server_path: '',
         cli_args: [
           // --verbose
-        ]
+        ],
+        log_path: './node_modules/.cache/test/end-to-end/logs'
       }
     }
 
@@ -89,7 +91,7 @@ module.exports = {
 
   usage_analytics: {
     enabled: true,
-    log_path: './logs/analytics',
+    log_path: './node_modules/.cache/test/end-to-end/logs',
     client_id: '84119a54-97cf-46ec-a082-437adc31df4c'
   }
 }

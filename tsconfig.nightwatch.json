@@ -17,6 +17,6 @@
     "swc": true
   },
   "include": [
-    "./**/*"
+    "test/end-to-end/**/*.ts"
   ]
 }

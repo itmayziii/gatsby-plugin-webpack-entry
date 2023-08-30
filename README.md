@@ -19,11 +19,6 @@ the [object syntax][webpack-entry-object-syntax] when specifying this option as 
 Webpack entries and therefore must be named. This plugin will verify your named entry points do not collide with Gatsby's.
 * The value should be an absolute path like `path.resolve(__dirname, 'src', 'super-app.js')`
 
-`webpackStatsFilePath`: `string` _(optional)_
-* Specify a path to a custom webpack.stats.json file, this would be rare to use as if gatsby was compiling somewhere 
-else besides the public directory. 
-* The value should be an absolute path like `path.resolve(__dirname, 'other-public', 'webpack.stats.json')`
-
 ### Example
 ```javascript
 module.exports = {

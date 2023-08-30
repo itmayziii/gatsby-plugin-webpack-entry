@@ -11,8 +11,8 @@ module.exports = {
         // This disables typechecking but significantly improves performance. Typechecking should be done via the
         // "npm run typecheck" command and doesn't need to happen during test execution.
         isolatedModules: true
-      },
-    ],
+      }
+    ]
   },
   collectCoverage: true,
   coverageDirectory: 'test/coverage',
