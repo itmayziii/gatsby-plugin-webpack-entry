@@ -1,8 +1,8 @@
+import { type GatsbyNode } from 'gatsby'
+import { type EntryObject } from 'webpack'
 import { type ValidatedPluginOptions } from './interfaces'
 import { isWebpackEntryObject, overlappingKeys, validatePluginOptions } from './utilities'
-import { type EntryObject } from 'webpack'
 import GatsbyPluginWebpackEntryStatsPlugin from './gatsby-plugin-webpack-entry-stats-plugin'
-import { type GatsbyNode } from 'gatsby'
 
 const onCreateWebpackConfig: GatsbyNode['onCreateWebpackConfig'] = async function onCreateWebpackConfig ({
   stage,
@@ -46,7 +46,6 @@ const onCreateWebpackConfig: GatsbyNode['onCreateWebpackConfig'] = async functio
   }
 }
 
-export default { onCreateWebpackConfig }
 export { onCreateWebpackConfig }
 
 /**

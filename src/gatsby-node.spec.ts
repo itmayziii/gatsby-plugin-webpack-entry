@@ -1,5 +1,5 @@
 import { describe, beforeEach, expect, test, jest } from '@jest/globals'
-import gatsbyNode from './gatsby-node'
+import { onCreateWebpackConfig } from './gatsby-node'
 import { type Configuration } from 'webpack'
 import { type PluginCallback, type PluginOptions, type CreateWebpackConfigArgs } from 'gatsby'
 import GatsbyPluginWebpackEntryStatsPlugin from './gatsby-plugin-webpack-entry-stats-plugin'
@@ -32,7 +32,7 @@ describe('gatsby-node', () => {
 
     test('should not do anything if the stage is not "develop" or "build-javascript"', () => {
       const actual = (stage: CreateWebpackConfigArgs['stage']) => async () => {
-        await gatsbyNode?.onCreateWebpackConfig(
+        await onCreateWebpackConfig?.(
           { ...createWebpackConfigArgs, stage },
           { entry: { 'super-app': './src/super-app.js' }, plugins: [] },
           onCreateWebpackConfigCb)
@@ -48,7 +48,7 @@ describe('gatsby-node', () => {
       // entry is not allowed to be undefined
       const invalidPluginOptions: PluginOptions = { plugins: [], entry: undefined }
       const actual = (stage: CreateWebpackConfigArgs['stage']) => async () => {
-        await gatsbyNode?.onCreateWebpackConfig(
+        await onCreateWebpackConfig?.(
           { ...createWebpackConfigArgs, stage },
           invalidPluginOptions,
           onCreateWebpackConfigCb)
@@ -70,7 +70,7 @@ describe('gatsby-node', () => {
         'Please open an issue at https://github.com/itmayziii/gatsby-plugin-webpack-entry/issues/new/choose.'
       ].join(' '))
       const actual = (stage: CreateWebpackConfigArgs['stage']) => async () => {
-        await gatsbyNode?.onCreateWebpackConfig({ ...createWebpackConfigArgs, stage },
+        await onCreateWebpackConfig?.({ ...createWebpackConfigArgs, stage },
           { entry: { 'super-app': './src/super-app.js' }, plugins: [] },
           onCreateWebpackConfigCb)
       }
@@ -86,7 +86,7 @@ describe('gatsby-node', () => {
         'Webpack. Overlapping keys: app'
       ].join(' '))
       const actual = (stage: CreateWebpackConfigArgs['stage']) => async () => {
-        await gatsbyNode?.onCreateWebpackConfig(
+        await onCreateWebpackConfig?.(
           { ...createWebpackConfigArgs, stage },
           { entry: { app: './src/super-app.js' }, plugins: [] },
           onCreateWebpackConfigCb)
@@ -99,7 +99,7 @@ describe('gatsby-node', () => {
     // https://webpack.js.org/concepts/entry-points/#entrydescription-object
     test('should include the entry value without modification if the object is an EntryDescription object', () => {
       const actual = (stage: CreateWebpackConfigArgs['stage']): void => {
-        void gatsbyNode?.onCreateWebpackConfig(
+        void onCreateWebpackConfig?.(
           { ...createWebpackConfigArgs, stage },
           {
             // https://webpack.js.org/concepts/entry-points/#entrydescription-object
@@ -144,7 +144,7 @@ describe('gatsby-node', () => {
       const stage = 'develop'
 
       test('should include the webpack-hot-middleware if entry value is a string', async () => {
-        await gatsbyNode?.onCreateWebpackConfig(
+        await onCreateWebpackConfig?.(
           { ...createWebpackConfigArgs, stage },
           { entry: { 'super-app': './src/super-app.js' }, plugins: [] },
           onCreateWebpackConfigCb)
@@ -160,7 +160,7 @@ describe('gatsby-node', () => {
       })
 
       test('should include the webpack-hot-middleware if entry value is an array of strings', async () => {
-        await gatsbyNode?.onCreateWebpackConfig(
+        await onCreateWebpackConfig?.(
           { ...createWebpackConfigArgs, stage },
           { entry: { 'super-app': ['./src/super-app.js', './src/super-app-2.js'] }, plugins: [] },
           onCreateWebpackConfigCb)
@@ -181,7 +181,7 @@ describe('gatsby-node', () => {
       const stage = 'build-javascript'
 
       test('should include the provided script if the entry value is a string', async () => {
-        await gatsbyNode?.onCreateWebpackConfig(
+        await onCreateWebpackConfig?.(
           { ...createWebpackConfigArgs, stage },
           { entry: { 'super-app': './src/super-app.js' }, plugins: [] },
           onCreateWebpackConfigCb)
@@ -200,7 +200,7 @@ describe('gatsby-node', () => {
           },
           plugins: []
         }
-        await gatsbyNode?.onCreateWebpackConfig(
+        await onCreateWebpackConfig?.(
           { ...createWebpackConfigArgs, stage },
           { entry: { 'super-app': ['./src/super-app.js', './src/super-app-2.js'] }, plugins: [] },
           onCreateWebpackConfigCb)

@@ -1,10 +1,9 @@
 import { beforeEach, jest, test, expect, describe } from '@jest/globals'
 import GatsbyPluginWebpackEntryStatsPlugin from './gatsby-plugin-webpack-entry-stats-plugin'
 import { type Compiler } from 'webpack'
+import fsModuleMock from 'fs'
 
 jest.mock('fs')
-// eslint-disable-next-line import/first
-import fsModuleMock from 'fs'
 const writeFileMock: jest.Mock = fsModuleMock.writeFile as unknown as jest.Mock
 
 const webpackStats = {

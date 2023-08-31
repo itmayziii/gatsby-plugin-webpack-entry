@@ -1,7 +1,7 @@
-import { describe, test, expect, beforeEach, beforeAll, afterAll, jest } from '@jest/globals'
 import path from 'path'
-import gatsbySsr from './gatsby-ssr'
+import { describe, test, expect, beforeEach, beforeAll, afterAll, jest } from '@jest/globals'
 import { type RenderBodyArgs } from 'gatsby'
+import { onRenderBody } from './gatsby-ssr'
 
 describe('gatsby-ssr', () => {
   describe('onRenderBody()', () => {
@@ -29,7 +29,7 @@ describe('gatsby-ssr', () => {
       })
 
       test('should set the head and post body scripts for each entry', () => {
-        gatsbySsr?.onRenderBody(onRenderBodyArgs, {
+        onRenderBody?.(onRenderBodyArgs, {
           entry: { 'super-app': 'super-app.js' },
           plugins: [],
           webpackStatsFilePath: path.resolve(__dirname, '../test/fixtures/gatsby-ssr/good-stats.json')
@@ -43,6 +43,11 @@ describe('gatsby-ssr', () => {
     })
 
     describe('process.env.NODE_ENV = "production"', () => {
+      beforeEach(() => {
+        // We do some `jest.mock` function calls in these tests
+        jest.resetModules()
+      })
+
       let originalNodeEnv: string | undefined
       beforeAll(() => {
         originalNodeEnv = process.env.NODE_ENV
@@ -59,7 +64,7 @@ describe('gatsby-ssr', () => {
           'https://webpack.js.org/api/stats/.'
         ].join(' '))
         expect(() => {
-          gatsbySsr?.onRenderBody(onRenderBodyArgs, {
+          onRenderBody?.(onRenderBodyArgs, {
             entry: { 'super-app': 'super-app.js' },
             plugins: [],
             webpackStatsFilePath: path.resolve(__dirname, 'does-not-exist.json')
@@ -75,7 +80,7 @@ describe('gatsby-ssr', () => {
           'https://webpack.js.org/api/stats/.'
         ].join(' '))
         expect(() => {
-          gatsbySsr?.onRenderBody(onRenderBodyArgs, {
+          onRenderBody?.(onRenderBodyArgs, {
             entry: { 'super-app': 'super-app.js' },
             plugins: [],
             webpackStatsFilePath: path.resolve(__dirname, '../test/fixtures/gatsby-ssr/malformed-stats.json')
@@ -85,6 +90,13 @@ describe('gatsby-ssr', () => {
       })
 
       test('should throw an error if "assetsByChunkName" property is missing from webpack stats file', () => {
+        jest.mock('./gatsby-stats.json', () => {
+          return require(path.resolve(
+            __dirname,
+            '../test/fixtures/gatsby-ssr/missing-assets-by-chunk-name-stats.json'
+          ))
+        }, { virtual: true })
+
         const expectedError = new Error([
           'gatsby-plugin-webpack-entry: Gatsby\'s Webpack stats file is missing the "assetsByChunkName" property.',
           'It is possible you are using a version of Gatsby that does not work with this plugin or',
@@ -93,19 +105,22 @@ describe('gatsby-ssr', () => {
           'https://webpack.js.org/api/stats/.'
         ].join(' '))
         expect(() => {
-          gatsbySsr?.onRenderBody(onRenderBodyArgs, {
+          onRenderBody?.(onRenderBodyArgs, {
             entry: { 'super-app': 'super-app.js' },
-            plugins: [],
-            webpackStatsFilePath: path.resolve(
-              __dirname,
-              '../test/fixtures/gatsby-ssr/missing-assets-by-chunk-name-stats.json'
-            )
+            plugins: []
           })
         }
         ).toThrow(expectedError)
       })
 
       test('should throw an error if webpack stats file "assetsByChunkName" is missing the entry name', () => {
+        jest.mock('./gatsby-stats.json', () => {
+          return require(path.resolve(
+            __dirname,
+            '../test/fixtures/gatsby-ssr/missing-assets-by-chunk-name-entry-stats.json'
+          ))
+        }, { virtual: true })
+
         const expectedError = new Error([
           'gatsby-plugin-webpack-entry: Gatsby\'s Webpack stats file is missing the "assetsByChunkName["super-app"]"',
           'property. It is possible you are using a version of Gatsby that does not work with this plugin or',
@@ -114,39 +129,22 @@ describe('gatsby-ssr', () => {
           'https://webpack.js.org/api/stats/.'
         ].join(' '))
         expect(() => {
-          gatsbySsr?.onRenderBody(onRenderBodyArgs, {
+          onRenderBody?.(onRenderBodyArgs, {
             entry: { 'super-app': 'super-app.js' },
-            plugins: [],
-            webpackStatsFilePath: path.resolve(
-              __dirname,
-              '../test/fixtures/gatsby-ssr/missing-assets-by-chunk-name-entry-stats.json'
-            )
+            plugins: []
           })
         }
         ).toThrow(expectedError)
       })
 
-      test('should use default path to the webpack stats file if the "webpackStatsFilePath" is not provided', () => {
-        // Only an error because the default path does not exist in our test data, but would exist in a Gatsby repo
-        const expectedError = new Error([
-          'gatsby-plugin-webpack-entry: Unable to read Webpack stats file.',
-          'Please open an issue at https://github.com/itmayziii/gatsby-plugin-webpack-entry/issues/new/choose.',
-          'https://webpack.js.org/api/stats/.'
-        ].join(' '))
-        expect(() => {
-          gatsbySsr?.onRenderBody(onRenderBodyArgs, {
-            entry: { 'super-app': 'super-app.js' },
-            plugins: []
-          })
-        })
-          .toThrow(expectedError)
-      })
-
       test('should set the head and post body scripts for each entry', () => {
-        gatsbySsr?.onRenderBody(onRenderBodyArgs, {
+        jest.mock('./gatsby-stats.json', () => {
+          return require(path.resolve(__dirname, '../test/fixtures/gatsby-ssr/good-stats.json'))
+        }, { virtual: true })
+
+        onRenderBody?.(onRenderBodyArgs, {
           entry: { 'super-app': 'super-app.js' },
-          plugins: [],
-          webpackStatsFilePath: path.resolve(__dirname, '../test/fixtures/gatsby-ssr/good-stats.json')
+          plugins: []
         })
 
         expect(setHeadComponentsMock).toHaveBeenCalledTimes(1)
