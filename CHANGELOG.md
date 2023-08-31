@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.2](https://github.com/itmayziii/gatsby-plugin-webpack-entry/compare/v2.0.1...v2.0.2) (2023-08-31)
+
+
+### Bug Fixes
+
+* **variable import issue:** using hard coded './gatsby-stats.json' path instead of variable ([d3e1000](https://github.com/itmayziii/gatsby-plugin-webpack-entry/commit/d3e100029e71f501e1efc4c9c555f526ac6330d9))
+
 ## [2.0.1](https://github.com/itmayziii/gatsby-plugin-webpack-entry/compare/v2.0.0...v2.0.1) (2023-08-31)
 
 
