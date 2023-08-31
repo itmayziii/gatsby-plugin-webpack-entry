@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.1](https://github.com/itmayziii/gatsby-plugin-webpack-entry/compare/v2.0.0...v2.0.1) (2023-08-31)
+
+
+### Bug Fixes
+
+* **gatsby-ssr:** honestly this is just some whitespace removal but I need to trigger a release ([ecbaf9a](https://github.com/itmayziii/gatsby-plugin-webpack-entry/commit/ecbaf9a8c83df239880fdede4ea6b79551b907e1))
+
 ## [2.0.0](https://github.com/itmayziii/gatsby-plugin-webpack-entry/compare/gatsby-plugin-webpack-entry-v1.0.1...gatsby-plugin-webpack-entry-v2.0.0) (2023-08-31)
 
 
