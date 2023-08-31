@@ -12,7 +12,6 @@ const onRenderBody: GatsbySSR['onRenderBody'] = function onRenderBody ({
   const assets = process.env.NODE_ENV === 'production'
     ? getProductionAssets(validatedPluginOptions)
     : getDevelopmentAssets(validatedPluginOptions)
-
   setHeadComponents(assets.links)
   setPostBodyComponents(assets.scripts)
 }
