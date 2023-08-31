@@ -1,6 +1,6 @@
 {
   "name": "gatsby-plugin-webpack-entry",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Gatsby plugin that lets you add additional entry points to the webpack configuration which will be included in your HTML pages.",
   "main": "index.js",
   "scripts": {
