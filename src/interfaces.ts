@@ -18,6 +18,9 @@ export interface ValidatedPluginOptions {
   webpackStatsFilePath?: string
 }
 
+/**
+ * Lists of assets added to Gatsby.
+ */
 export interface GatsbyAssets {
   links: ReactNode[]
   scripts: ReactNode[]
