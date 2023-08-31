@@ -6,7 +6,9 @@
       "bump-patch-for-minor-pre-major": false,
       "draft": false,
       "prerelease": false,
-      "monorepo-tags": false
+      "monorepo-tags": false,
+      "pull-request-title-pattern": "chore${scope}: release ${version}",
+      "include-component-in-tag": false
     }
   },
   "$schema": "https://raw.githubusercontent.com/googleapis/release-please/main/schemas/config.json"
